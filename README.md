@@ -1,2 +1,1 @@
-# caxiasrockzne_bot
-Bot para ler os posts do blog www.caxiasrockzne.com.br
+Telegram Bot para ler os posts do [Blog CaxiasRockZne](www.caxiasrockzne.com.br)
