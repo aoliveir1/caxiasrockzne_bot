@@ -6,11 +6,13 @@ import telepot
 from telepot.loop import MessageLoop
 from telepot.namedtuple import InlineQueryResultArticle, InputTextMessageContent
 from telepot.exception import TelegramError
-import urllib2
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 # Scrapping the main page
-page = urllib2.urlopen('http://www.caxiasrockzne.com.br')
+#import urllib2
+#page = urllib2.urlopen('http://www.caxiasrockzne.com.br')
+page = urlopen('http://www.caxiasrockzne.com.br')
 soup = BeautifulSoup(page, 'html.parser')
 posts = soup.find_all('h3', attrs={'class': 'post-title entry-title'})
 
@@ -27,7 +29,7 @@ def get_links():
 
 def get_soup(i):
     # Prepare page to scrap
-    page = urllib2.urlopen('http://' + get_links()[i])
+    page = urlopen('http://' + get_links()[i])
     return BeautifulSoup(page, 'html.parser')
 
 def get_title(i):
@@ -43,8 +45,8 @@ def get_date(i):
 def get_text(i):
     # Get the post text
     text = get_soup(i).find('div', attrs={'class':'post-body entry-content float-container'})
-    text = text.text.encode('utf-8').strip()
-    text = str(text[0:500]).replace('\n\n', ' ').replace('\r', '').decode('utf8')
+    text = text.text.strip()
+    text = str(text[0:500]).replace('\n\n', ' ').replace('\r', '')
     text += '...\nPostado em: ' + get_date(i) + '\nContinue lendo: ' + get_links()[i]
     return text
 
@@ -56,7 +58,7 @@ def on_inline_query(msg):
         query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
         print ('Inline Query:', query_id, from_id, query_string)
         articles = []
-        for i in range(5):
+        for i in range(3):
             articles.append(InlineQueryResultArticle(
                 id=i,
                 title=get_title(i),
