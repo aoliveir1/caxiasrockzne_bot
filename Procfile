@@ -1,1 +1,1 @@
-web: python2 cxsrockzine.py $TOKEN
+web: python cxsrockzine.py $TOKEN
