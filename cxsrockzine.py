@@ -47,8 +47,8 @@ def get_text(i):
     # Get the post text
     text = get_soup(i).find('div', attrs={'class':'post-body entry-content float-container'})
     text = text.text.strip()
-    text = str(text[:100]).replace('\n\n', ' ').replace('\r', '')
-    text += '...postado: ' + get_date(i)
+    text = str(text[:1]).replace('\n\n', ' ').replace('\r', '')
+    text += '... postado em: ' + get_date(i)
     return text
 
 def on_chat_message(msg):
@@ -59,7 +59,7 @@ def on_inline_query(msg):
         query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
         print ('Inline Query:', query_id, from_id, query_string)
         articles = []
-        for i in range(4):
+        for i in range(10):
             articles.append(InlineQueryResultArticle(
                 id=i,
                 title=get_title(i),
