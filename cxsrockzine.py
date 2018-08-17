@@ -53,36 +53,38 @@ def get_text(i):
 def on_chat_message(msg):
     pass
 
-def on_inline_query(msg):
-    def compute():
-        query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
-        print ('Inline Query:', query_id, from_id, query_string)
-        articles = []
-        for i in range(3):
-            articles.append(InlineQueryResultArticle(
-                id=i,
-                title=get_title(i),
-                input_message_content=InputTextMessageContent(
-                    message_text=get_text(i))
-                             ))
-        return articles
-    try:
-        answerer.answer(msg, compute)
-    except TelegramError as e:
-        print(e.description)
-        print(e.error_code)
-
-def on_chosen_inline_result(msg):
-    result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
-    print ('Chosen Inline Result:', result_id, from_id, query_string)
-
-
-TOKEN = sys.argv[1]  # get token from command-line
-
-bot = telepot.Bot(TOKEN)
-answerer = telepot.helper.Answerer(bot)
 
 try:
+    def on_inline_query(msg):
+        def compute():
+            query_id, from_id, query_string = telepot.glance(msg, flavor='inline_query')
+            print ('Inline Query:', query_id, from_id, query_string)
+            articles = []
+            for i in range(4):
+                articles.append(InlineQueryResultArticle(
+                    id=i,
+                    title=get_title(i),
+                    input_message_content=InputTextMessageContent(
+                        message_text=get_text(i))
+                                 ))
+            return articles
+        try:
+            answerer.answer(msg, compute)
+        except TelegramError as e:
+            print(e.description)
+            print(e.error_code)
+
+    def on_chosen_inline_result(msg):
+        result_id, from_id, query_string = telepot.glance(msg, flavor='chosen_inline_result')
+        print ('Chosen Inline Result:', result_id, from_id, query_string)
+
+
+    TOKEN = sys.argv[1]  # get token from command-line
+
+    bot = telepot.Bot(TOKEN)
+    answerer = telepot.helper.Answerer(bot)
+
+
     MessageLoop(bot, {'chat': on_chat_message,
                       'inline_query': on_inline_query,
                       'chosen_inline_result': on_chosen_inline_result}).run_as_thread()
