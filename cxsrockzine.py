@@ -46,7 +46,7 @@ def get_text(i):
     # Get the post text
     text = get_soup(i).find('div', attrs={'class':'post-body entry-content float-container'})
     text = text.text.strip()
-    text = str(text[0:500]).replace('\n\n', ' ').replace('\r', '')
+    text = str(text[0:50]).replace('\n\n', ' ').replace('\r', '')
     text += '...\nPostado em: ' + get_date(i) + '\nContinue lendo: ' + get_links()[i]
     return text
 
